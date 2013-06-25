@@ -35,6 +35,10 @@ public class GetSightings {
 			Literal status = qs.getLiteral("status");
 			Literal sTime = qs.getLiteral("sTime");
 			
+			String grp = "unknown";
+			if(group != null)
+				grp = group.getLocalName();
+			
 			String cCode = "unknown";
 			String cName = "unknown";
 			
@@ -46,7 +50,7 @@ public class GetSightings {
 			Sighting s = new Sighting(
 							obs.getLocalName().substring(11),
 							rTime.getLexicalForm(),
-							group.getLocalName(),
+							grp,
 							cCode,
 							cName,
 							"unknown",
@@ -62,7 +66,6 @@ public class GetSightings {
 							sTime.getLexicalForm()
 						);
 			sightings.add(s);
-			
 		}
 		return sightings;
 	}
@@ -70,13 +73,13 @@ public class GetSightings {
 	private ResultSet queryForSightings()
 	{
 		String query = "PREFIX ssn: <http://purl.oclc.org/NET/ssnx/ssn#> " +
-					   "PREFIX mink: <http://dtp-126.sncs.abdn.ac.uk/mink#> " +
+					   "PREFIX mink: <http://dtp-126.sncs.abdn.ac.uk/mink/> " +
 					   "PREFIX foaf: <http://xmlns.com/foaf/0.1/> " + 
-					   "PREFIX prov: <http://www.w3.org/NS/prov-o/> " +
+					   "PREFIX prov: <http://www.w3.org/ns/prov#> " +
 					   "SELECT * WHERE { " + 
 							"?obs ssn:featureOfInterest ?foi . " +  
 							"?obs mink:x_coord ?x . " + 
-							"?obs mink:y_coord ?y . " +
+							"?obs mink:y_coord ?y . " + 
 							"?obs prov:wasAttributedTo ?agent . " +    
 						    "?obs ssn:observationResultTime ?rTime . " +  
 						    "?obs ssn:observationSamplingTime ?sTime . " + 
@@ -85,9 +88,9 @@ public class GetSightings {
 							"?value mink:count ?count . " + 
 							"?value mink:status ?status . " + 
 							"?foi mink:name ?riverName . " + 
-							"?agent foaf:member ?group . " +
 							"OPTIONAL { " + 
-								"?agent foaf:name ?agentName . " + 	
+								"?agent foaf:name ?agentName . " +
+								"?agent foaf:member ?group . " +
 							"}" + 
 						"}";	
 		

@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class Stats {
 	
-	public static Long calculatAverage(ArrayList<Long> numbers)
+	public static Long calculateAverage(ArrayList<Long> numbers)
 	{
 		Long total = 0L;
 		for(int i=0;i<numbers.size();i++)
