@@ -39,20 +39,12 @@ public class GetSightings {
 			if(group != null)
 				grp = group.getLocalName();
 			
-			String cCode = "unknown";
-			String cName = "unknown";
-			
-			if(qs.contains("agentName"))
-				cName = qs.getLiteral("agentName").getLexicalForm();
-			else
-				cCode = agent.getLocalName();
-			
 			Sighting s = new Sighting(
 							obs.getLocalName().substring(11),
 							rTime.getLexicalForm(),
 							grp,
-							cCode,
-							cName,
+							"unknown",
+							agent.getLocalName(),
 							"unknown",
 							"",
 							"",
@@ -89,8 +81,7 @@ public class GetSightings {
 							"?value mink:status ?status . " + 
 							"?foi mink:name ?riverName . " + 
 							"OPTIONAL { " + 
-								"?agent foaf:name ?agentName . " +
-								"?agent foaf:member ?group . " +
+								"?agent prov:hadRole ?group . " +
 							"}" + 
 						"}";	
 		
